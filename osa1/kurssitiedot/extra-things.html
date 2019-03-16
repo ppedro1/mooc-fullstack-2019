@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>osa1 extra javascript</title>
+    </head>
+    <body>
+            <div id="container"></div>
+    </body>
+    <script type="text/javascript">
+        const peetu = {
+            name: 'Peetu Pasanen',
+            age: 30,
+            education: 'Sähköasentaja',
+            greet: function () {
+                console.log("Hello, my name is ", this.name);
+                console.log("and I am " + this.age + " years old.");
+            },
+            summaaja: function (a, b) {
+                console.log(a + b)
+            }
+        }
+
+        peetu.growOlder = function () {
+            this.age += 1;
+        }
+
+        peetu.greet();
+        peetu.growOlder();
+        peetu.greet();
+
+        var summaus = peetu.summaaja;
+        summaus(25, 25);
+
+        class Weapon {
+            constructor (name, type, damage) {
+                this.name = name;
+                this.type = type;
+                this.damage = damage;
+            }
+            details() {
+                console.log(this.name + ' is a ' + this.type + ' weapon, with ' + this.damage + ' damage points.');
+            }
+        }
+
+        const sword = new Weapon('Sword of teh clown', 'melee', '1');
+        const bow = new Weapon('Bow of the boar', 'ranged', '2');
+
+        sword.details();
+        bow.details();
+
+
+    </script>
+</html>
