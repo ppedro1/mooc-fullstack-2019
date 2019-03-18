@@ -31,8 +31,6 @@ const Total = (data) => {
     )
 }
 
-
-
 const App = () => {
       const course = {
           name: 'Half Stack -sovelluskehitys',
