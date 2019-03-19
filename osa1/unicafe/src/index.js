@@ -1,8 +1,16 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Statistic = ({ text, value }) => {
+    return (
+        <tr>
+            <td class="left">{ text }</td>
+            <td>{ value }</td>
+        </tr>
+    )
+}
 
-const Stats = ({ good, neutral, bad }) => {
+const Statistics = ({ good, neutral, bad }) => {
     var total = good + neutral + bad;
     var badVal = bad * -1;
     var avg = (good + badVal) / total;
@@ -16,30 +24,12 @@ const Stats = ({ good, neutral, bad }) => {
                         <h1>statistiikka</h1>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="left">hyvä</td>
-                            <td>{ good }</td>
-                        </tr>
-                        <tr>
-                            <td class="left">neutraali</td>
-                            <td>{ neutral }</td>
-                        </tr>
-                        <tr>
-                            <td class="left">huono</td>
-                            <td>{ bad }</td>
-                        </tr>
-                        <tr>
-                            <td class="left">yhteensä</td>
-                            <td>{ total }</td>
-                        </tr>
-                        <tr>
-                            <td class="left">keskiarvo</td>
-                            <td>{ avg }</td>
-                        </tr>
-                        <tr>
-                            <td class="left">positiivisia</td>
-                            <td>{ posFB } %</td>
-                        </tr>
+                        <Statistic text='hyvä' value={ good } />
+                        <Statistic text='neutraali' value={ neutral } />
+                        <Statistic text='huono' value={ bad } />
+                        <Statistic text='yhteensä' value={ total } />
+                        <Statistic text='keskiarvo' value={ avg } />
+                        <Statistic text='positiivisia' value={ posFB + ' %' } />
                     </tbody>
                 </table>
             </div>
@@ -57,14 +47,14 @@ const Input = ({ incGood, incNeutral, incBad }) => {
     return (
         <div>
             <h1>anna palautetta</h1>
-            <ReviewButton text='hyvä' handler={ incGood } />
-            <ReviewButton text='neutraali' handler={ incNeutral } />
-            <ReviewButton text='huono' handler={ incBad } />
+            <Button text='hyvä' handler={ incGood } />
+            <Button text='neutraali' handler={ incNeutral } />
+            <Button text='huono' handler={ incBad } />
         </div>
     )
 }
 
-const ReviewButton = ({ handler, text }) => {
+const Button = ({ handler, text }) => {
     return (
         <button onClick={ handler }>
             { text }
@@ -84,7 +74,7 @@ const App = () => {
     return (
         <>
             <Input incGood={ incGood } incNeutral={ incNeutral } incBad={ incBad } />
-            <Stats good={ good } neutral={ neutral } bad={ bad } />
+            <Statistics good={ good } neutral={ neutral } bad={ bad } />
         </>
     )
 }
