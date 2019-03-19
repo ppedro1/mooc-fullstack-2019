@@ -1,0 +1,20 @@
+Client->Server: HTTP GET /spa
+Server-->Client: palvelin palauttaa sivun HTML:än                    -
+Client->Server: HTTP GET /main.css
+Server-->Client: palvelin palauttaa sivun CSS:än
+Client->Server: HTTP GET /spa.js
+Server->Client: palvelin palauttaa sivulle liitetyn spa.js 
+
+note left of Client
+selain ajaa spa.js tiedoston 
+joka pyytää palvelimelta 
+data.json tiedoston
+end note
+
+Client->Server: HTTP GET /data.json
+Server-->Client: palauttaa data.json
+
+note left of Client
+kun xhr:llä tehty GET pyyntö 
+on valmis, takaisinkutsu funktio parsii datan
+ja päivittää DOM:in

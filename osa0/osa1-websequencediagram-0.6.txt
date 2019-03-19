@@ -1,0 +1,14 @@
+
+note left of Client
+Käyttäjä syöttää muistiinpanon input 
+-kenttään ja painaa submit nappia
+end note
+
+note over Client
+spa.js lisää uuden muistiinpanon DOM:iin
+ja muuttaa muistiinpanon json-merkkijonoksi,
+jonka sitten lähettää POST metodilla palvelimelle
+käsiteltäväksi
+end note
+Client->Server: HTTP POST /new_note_spa
+Server-->Client: HTTP POST {"message":"note created"}

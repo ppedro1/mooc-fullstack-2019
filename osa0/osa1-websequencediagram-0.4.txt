@@ -1,0 +1,32 @@
+title Authentication Sequence
+
+
+
+Client->Server: HTTPS POST /new_note
+
+note left of Client
+uusi muistiinpano
+lähetetään POST -metodilla (param: note)
+palvelimelle joka tallentaa muistiinpanon
+ja sivu latautuu uudelleen
+end note
+
+Client->Server: HTTPS GET /notes
+Server-->Client: html
+Client->Server: HTTPS GET /main.css
+Server-->Client: main.css
+Client->Server: HTTPS GET /main.js
+Server-->Client: main.js
+
+note left of Client
+selain suorittaa main.js
+-> pyytää data.json palvelimelta
+end note
+
+
+Client->Server: HTTPS GET /data.json
+Server-->Client: [{ content: ... }]
+
+note left of Client
+selain parsii ja renderöi JSON-datan
+end note
