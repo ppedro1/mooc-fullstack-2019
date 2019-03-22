@@ -5,6 +5,7 @@ import Weather from './Weather'
 const Country = ({ country }) => {
     const [ weather, setWeather ] = useState('')
     const [ done, setDone ] = useState(false)
+
     const weatherAPI = `http://api.apixu.com/v1/current.json?key=8cf218ec6d37418794082009192203&q=${country.capital}`
 
     console.log('before effect')
@@ -20,8 +21,8 @@ const Country = ({ country }) => {
     const mapLang = () => country.languages.map(a => <li key={ a.name }>{ a.name }</li>)
 
     const imgStyle = {
-        height: '250px',
-        width: 'auto'
+        height: 'auto',
+        width: '200px'
     }
 
     return (

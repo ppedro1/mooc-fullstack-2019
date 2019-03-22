@@ -31,12 +31,13 @@ const App = () => {
         } else if (filtered.length === 1) {
             return <Country country={ filtered[0] } />
         } else {
-            return <Countries countries={ filtered } />
+            return <Countries countries={ filtered } setFilter={ setFilter } />
         }
     }
 
     return (
         <div>
+            <h2>country search</h2>
             <Filter setFilter={ setFilter } filter={ filter }/>
             { returnResult() }
         </div>
