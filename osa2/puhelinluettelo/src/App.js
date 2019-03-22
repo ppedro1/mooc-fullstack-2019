@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 import AddForm from './components/AddForm'
 import Directory from './components/Directory'
 import Filter from './components/Filter'
 
 const App = () => {
-
-    // Application states
-    const [ persons, setPersons ] = useState([
-        { id: 1, name: 'Arto Hellas', number: '012-1231234' },
-        { id: 2, name: 'Peetu Pasanen', number: '210-3214321' },
-        { id: 3, name: 'Pelle Peloton', number: '333-2342324' },
-        { id: 4, name: 'Yrjö Mällinen', number: '655-4566666' }
-    ])
+    const [ persons, setPersons ] = useState([])
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
     const [ newFilter, setNewFilter ] = useState('')
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+                setPersons(response.data)
+            })
+    }, []);
 
     // input handlers
     const handleNewName = (evt) => setNewName(evt.target.value)
@@ -62,7 +64,7 @@ const App = () => {
                      />
             <h3>Rajaa henkilöitä</h3>
             <Filter newFilter={ newFilter } setNewFilter={ setNewFilter } />
-            <Directory persons={ persons } newFilter={ newFilter } />
+            <Directory persons={ persons } setPersons={ setPersons } newFilter={ newFilter } />
         </div>
     )
 }

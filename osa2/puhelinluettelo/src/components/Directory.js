@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const Directory = ({ persons, newFilter }) => {
+const Directory = ({ persons, setPersons, newFilter }) => {
 
     // check if filter exists and match with RegExp (causes errors with symbols like +, -, / etc)
     const filteredPersons = (newFilter.length > 0) ? persons.filter(a => a.name.match(new RegExp(newFilter, 'gi'))) : persons
