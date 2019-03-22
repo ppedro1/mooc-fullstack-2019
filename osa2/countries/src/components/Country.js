@@ -3,20 +3,22 @@ import axios from 'axios'
 import Weather from './Weather'
 
 const Country = ({ country }) => {
-    const [ weather, setWeather ] = useState({})
-    const weatherAPI = `http://api.apixu.com/v1/current.json?key=99bca7a9f5354187ad073742192203&q=${country.capital}`
+    const [ weather, setWeather ] = useState('')
+    const [ done, setDone ] = useState(false)
+    const weatherAPI = `http://api.apixu.com/v1/current.json?key=8cf218ec6d37418794082009192203&q=${country.capital}`
 
+    console.log('before effect')
     useEffect(() => {
         axios
             .get(weatherAPI)
             .then(response => {
                 setWeather(response.data)
+                setDone(true)
             })
-    }, [])
-
-    console.log(weather.location);
+    }, [country])
 
     const mapLang = () => country.languages.map(a => <li key={ a.name }>{ a.name }</li>)
+
     const imgStyle = {
         height: '250px',
         width: 'auto'
@@ -33,8 +35,8 @@ const Country = ({ country }) => {
             <ul>
                 { mapLang() }
             </ul>
-            <img style={ imgStyle } alt={ ` ${country.name} flag ` }src={ country.flag } />
-
+            <img style={ imgStyle } alt={ ` ${country.name} flag ` } src={ country.flag } />
+            <Weather isDone={ done } weather={ weather } />
         </div>
     )
 }

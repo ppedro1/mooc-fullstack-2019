@@ -8,8 +8,9 @@ import Countries from './components/Countries'
 const App = () => {
     const [ filter, setFilter ] = useState('')
     const [ countries, setCountries ] = useState([])
+
     const apiURL = 'https://restcountries.eu/rest/v2/all'
-    
+
     useEffect(() => {
         axios
             .get(apiURL)
