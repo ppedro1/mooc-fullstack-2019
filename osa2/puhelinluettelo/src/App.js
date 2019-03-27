@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import AddForm from './components/AddForm'
 import Directory from './components/Directory'
 import Filter from './components/Filter'
+import Data from './services/DbMethods'
 
 const App = () => {
     const [ persons, setPersons ] = useState([])
@@ -12,12 +12,10 @@ const App = () => {
     const [ newFilter, setNewFilter ] = useState('')
 
     useEffect(() => {
-        axios
-            .get('http://localhost:3001/persons')
-            .then(response => {
-                setPersons(response.data)
-            })
-    }, []);
+        Data.getDir()
+        .then(dirList =>
+            setPersons(dirList)
+        )}, []);
 
     // input handlers
     const handleNewName = (evt) => setNewName(evt.target.value)
@@ -31,21 +29,42 @@ const App = () => {
     const insertRecord = (evt) => {
         evt.preventDefault()
         // Check if name or number exists and prevent addition
-        if (ifNameExists) {
-            window.alert(`${newName} on jo luettelossa`)
-            setNewName('')
-        } else if (ifNumExists) {
+        if (ifNumExists) {
             window.alert(`${newNumber} on jo luettelossa`)
             setNewNumber('')
         } else {
             const newObject = {
-                id: persons.length + 1,
                 name: newName,
                 number: newNumber
             }
-            setPersons(persons.concat(newObject))
+            if (ifNameExists) {
+                // if name exists -> ask for confirmation on number change
+                if (window.confirm(`${ newName } on jo luettelossa, haluatko korvata numeron uudella?`)) {
+                    let oldPerson = persons.filter(a => a.name === newName)[0];
+                    Data
+                    .update(oldPerson.id, newObject)
+                    .then(res => {
+                        setPersons(persons.map(person => (person.id === oldPerson.id) ? res : person))
+                    })
+                }
+            } else {
+                Data.insert(newObject)
+                .then(response => {
+                    setPersons(persons.concat(response))
+                })
+            }
             setNewName('')
             setNewNumber('')
+        }
+    }
+
+    const handleDelete = (numID) => {
+        const person = persons.find(a => a.id === numID)
+        if (window.confirm(`Haluatko poistaa kontaktin ${person.name} (ID: ${person.id})`)) {
+            Data.delNum(numID)
+            .then(res => {
+                setPersons(persons.filter(num => num.id !== numID))
+            })
         }
     }
 
@@ -64,7 +83,7 @@ const App = () => {
                      />
             <h3>Rajaa henkilöitä</h3>
             <Filter newFilter={ newFilter } setNewFilter={ setNewFilter } />
-            <Directory persons={ persons } setPersons={ setPersons } newFilter={ newFilter } />
+            <Directory persons={ persons } setPersons={ setPersons } newFilter={ newFilter } handleDelete={ handleDelete } />
         </div>
     )
 }

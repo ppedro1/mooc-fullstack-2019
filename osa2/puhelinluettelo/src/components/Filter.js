@@ -7,11 +7,11 @@ const Filter = ({ newFilter, setNewFilter }) => {
     }
 
     return (
-        <>
+        <div>
             <form>
                 <input value={ newFilter } onChange={ handleFilter } />
             </form>
-        </>
+        </div>
     )
 }
 
