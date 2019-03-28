@@ -1,21 +1,6 @@
 {
   "persons": [
     {
-      "name": "nimi nimekäs",
-      "number": "123-4242424",
-      "id": 2
-    },
-    {
-      "name": "essi esimerkki",
-      "number": "555-4447777",
-      "id": 4
-    },
-    {
-      "name": "örri örveltäjä",
-      "number": "123-0008888",
-      "id": 5
-    },
-    {
       "name": "uli uikuttaja",
       "number": "012-7895461",
       "id": 6
@@ -24,6 +9,16 @@
       "name": "jere jekuttaja",
       "number": "123-5454545",
       "id": 7
+    },
+    {
+      "name": "jyri simmonen",
+      "number": "123-4442323",
+      "id": 8
+    },
+    {
+      "name": "peetu pasanen",
+      "number": "333-4445555",
+      "id": 9
     }
   ]
 }

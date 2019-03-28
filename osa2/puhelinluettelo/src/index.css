@@ -12,3 +12,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.notif-panel {
+    width: 40%;
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1.25rem;
+    border-radius: 2px;
+    background-color: rgba(33, 181, 57, 0.9);
+    border: 2px solid rgba(33, 181, 57, 1);
+    color: rgb(198, 255, 191);
+}
+.error-panel {
+    width: 40%;
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1.25rem;
+    border-radius: 2px;
+    background-color: rgba(181, 33, 37, 0.79);
+    border: 2px solid rgba(181, 33, 37, 1);
+    color: rgba(255, 255, 255, 1);
+}

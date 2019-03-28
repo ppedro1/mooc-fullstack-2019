@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import noteService from './services/notes.js'
 import Note from './components/Note'
+import Notification from './components/Notification'
 
 const App = () => {
     const [ notes, setNotes ] = useState([])
     const [ newNote, setNewNote ] = useState('')
     const [ showAll, setShowAll ] = useState(true)
+    const [ error, setError ] = useState('virhoiehariosdh')
 
     useEffect(() => {
         noteService
@@ -24,7 +26,10 @@ const App = () => {
             .then(updatedNote => {
                 setNotes(notes.map(note => note.id !== id ? note : updatedNote))
             }).catch(error => {
-                alert (`Kyseinen muistiinpano\n "${ note.content }"\n on jo poistettu`)
+                setError(`virheviesti goes here`)
+                setTimeout(() => {
+                    setError(null)
+                }, 2000)
                 setNotes(notes.filter(a => a.id !== note.id))
             })
     }
@@ -56,6 +61,7 @@ const App = () => {
     return (
         <div>
             <h1>Muistiinpanot</h1>
+            <Notification message={ error } />
             <div>
                 <button onClick={ () => setShowAll(!showAll) }>
                     näytä { showAll ? 'vain tärkeät' : 'kaikki' }
