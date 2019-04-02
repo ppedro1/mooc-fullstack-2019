@@ -58,6 +58,7 @@ const generateId = () => {
 }
 
 app.post('/notes', (req, res) => {
+    const body = req.body
     if (!body.content) {
         return res.status(400).json({
             error: 'content missing'
@@ -77,7 +78,7 @@ app.post('/notes', (req, res) => {
 })
 
 app.delete('/notes/:id', (req, res) => {
-    const id =Number(req.params.id);
+    const id = Number(req.params.id);
     notes = notes.filter(note => note.id !== id)
 
     res.status(204).end();
