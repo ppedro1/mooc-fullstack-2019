@@ -7,7 +7,7 @@ const App = () => {
     const [ notes, setNotes ] = useState([])
     const [ newNote, setNewNote ] = useState('')
     const [ showAll, setShowAll ] = useState(true)
-    const [ error, setError ] = useState('virhoiehariosdh')
+    const [ error, setError ] = useState(null)
 
     useEffect(() => {
         noteService
@@ -42,7 +42,6 @@ const App = () => {
         evt.preventDefault();
         const noteObject = {
             content: newNote,
-            date: new Date().toISOString(),
             important: Math.random() > 0.5,
         }
         noteService

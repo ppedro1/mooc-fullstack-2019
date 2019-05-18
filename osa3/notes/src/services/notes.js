@@ -1,7 +1,8 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = 'http://localhost:3001/api/notes'
 
+/*
 const getAll = () => {
   const request = axios.get(baseUrl)
   const nonExisting = {
@@ -12,12 +13,13 @@ const getAll = () => {
   }
   return request.then(response => response.data.concat(nonExisting))
 }
+*/
 
-/*
+
 const getAll = () => {
     const req =  axios.get(baseUrl)
     return req.then(response => response.data)
-} */
+}
 
 const create = newObject => {
     const req = axios.post(baseUrl, newObject)
@@ -29,17 +31,8 @@ const update = (id, newObject) => {
     return req.then(response => response.data)
 }
 
-/*
-    export default {
-        getAll: getAll,
-        create: create,
-        update: update
-    }
-    ^ sama kuin alla oleva
-*/
-
-    export default {
-        getAll,
-        create,
-        update
-    }
+export default {
+    getAll,
+    create,
+    update
+}
