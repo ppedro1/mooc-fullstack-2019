@@ -73,6 +73,7 @@ const App = () => {
     const handleDelete = (numID) => {
         const person = persons.find(a => a.id === numID)
         if (window.confirm(`Haluatko poistaa kontaktin ${person.name} (ID: ${person.id})`)) {
+
             Data.delNum(numID)
             .then(res => {
                 setPersons(persons.filter(num => num.id !== numID))

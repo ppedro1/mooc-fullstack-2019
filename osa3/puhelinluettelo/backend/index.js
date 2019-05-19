@@ -44,6 +44,52 @@ app.post('/persons', (req, res) => {
     })
 })
 
+app.get('/persons/:id', (req, res) => {
+    Contact.findById(req.params.id)
+    .then(contact => {
+        if (contact) {
+            res.json(contact.toJSON())
+        } else {
+            res.status(404).end()
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        res.status(404).end()
+    })
+})
+
+app.delete('/persons/:id', (req, res) => {
+    const userID = req.params.id
+    var userName, userNumber;
+
+    if (!userID) {
+        res.status(400).json({
+            error: 'id missing'
+        })
+    }
+
+    Contact.find({ id: userID }).then((response) => {
+        userName = response.name
+        userNumber = response.number
+    })
+
+    Contact.findByIdAndDelete(userID, (error) => {
+        if (error) {
+            res.status(400).json({
+                error: error
+            })
+        }
+
+        console.log('deleted contact with id: ' + userID)
+
+        res.status(200).json({
+            id: userID,
+            name: userName,
+            number: userNumber
+        })
+    })
+})
 
 app.listen(PORT, () => {
     console.log(`app running in port ${PORT}`)
