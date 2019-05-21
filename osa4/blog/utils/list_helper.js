@@ -16,7 +16,6 @@ const favouriteBlog = (blogs) => {
         author: blogs[reducedIndex].author,
         likes: blogs[reducedIndex].likes
     }
-
     return returnObject
 }
 
@@ -37,9 +36,30 @@ const mostBlogs = (blogs) => {
     return { author: authorsRemap[greatestIndex].author, blogs: authorsRemap[greatestIndex].blogs }
 }
 
+const mostLikes = (blogs) => {
+    let authors = blogs.map(a => {
+        return { author: a.author, likes: a.likes }
+    })
+    let authorLikes = []
+    authors.map(author => {
+        if (authorLikes.find(x => x.author === author.author) === undefined) {
+            authorLikes.push({ author: author.author, likes: author.likes })
+        } else {
+            let findIndex = authorLikes.findIndex(c => c.author === author.author)
+            authorLikes[findIndex].likes += author.likes
+        }
+    })
+    let reducer = (acc, curr, index, arr) => (authorLikes[index].likes > authorLikes[acc].likes)? acc = index : acc = acc
+    let greatestIndex = authorLikes.reduce(reducer, 0)
+
+    return { author: authorLikes[greatestIndex].author, likes: authorLikes[greatestIndex].likes }
+}
+
+
 module.exports = {
     dummy,
     totalLikes,
     favouriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
