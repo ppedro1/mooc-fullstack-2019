@@ -1,5 +1,6 @@
 import axios from 'axios'
-const dbUrl = 'http://localhost:3001/persons'
+
+const dbUrl = 'http://localhost:3001/api/persons'
 
 const getDir = () => {
     const req = axios.get(dbUrl)

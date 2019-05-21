@@ -2,7 +2,6 @@ require('dotenv').config()
 
 const PORT = process.env.PORT
 
-const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -11,6 +10,7 @@ const Contact = require('./models/contact')
 
 const app = express()
 
+app.use(express.static('build'))
 app.use(cors())
 app.use(bodyParser.json())
 
@@ -18,20 +18,23 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello world</h1>')
 })
 
-app.get('/persons', (req, res) => {
+app.get('/info', (req, res) => {
+    Contact.countDocuments({})
+    .then(count => {
+        const date = new Date()
+        res.status(200)
+        .send(`<h1>Puhelinluettelo API v0.12345678</h1><p>Tietokannassa on ${ count } kontaktia.</p><p>${ date }</p>`)
+    })
+})
+
+app.get('/api/persons', (req, res) => {
     Contact.find({}).then(result => {
         res.json(result)
     })
 })
 
-app.post('/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
     const body = req.body
-
-    if (!body.number || !body.name) {
-        res.status(400).json({
-            error: 'missing either number or name'
-        })
-    }
 
     const contact = new Contact({
         name: body.name,
@@ -42,9 +45,10 @@ app.post('/persons', (req, res) => {
         console.log('Added new contact to database: ' + contact.name + ' - ' + contact.number)
         res.json(response)
     })
+    .catch(error => next(error))
 })
 
-app.get('/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
     Contact.findById(req.params.id)
     .then(contact => {
         if (contact) {
@@ -53,43 +57,51 @@ app.get('/persons/:id', (req, res) => {
             res.status(404).end()
         }
     })
-    .catch(error => {
-        console.log(error)
-        res.status(404).end()
-    })
+    .catch(error => next(error))
 })
 
-app.delete('/persons/:id', (req, res) => {
+app.put('/api/persons/:id', (req, res, next) => {
+    const body = req.body
+    const id = req.params.id
+
+    const newObject = {
+        name: body.name,
+        number: body.number
+    }
+
+    Contact.findByIdAndUpdate(id, newObject, { new: true })
+    .then(updatedNote => {
+        res.json(updatedNote.toJSON())
+    })
+    .catch(error => next(error))
+})
+
+app.delete('/api/persons/:id', (req, res, next) => {
     const userID = req.params.id
     var userName, userNumber;
 
-    if (!userID) {
-        res.status(400).json({
-            error: 'id missing'
+    Contact.findByIdAndRemove(userID)
+    .then(result => {
+        res.status(204).end()
+    })
+    .catch(error => next(error))
+})
+
+const errorHandler = (error, req, res, next) => {
+
+    console.log(error.name)
+    console.log(error.message)
+
+    if (error.name === 'ValidationError') {
+        return res.status(400).json({
+            error: error.message
         })
     }
 
-    Contact.find({ id: userID }).then((response) => {
-        userName = response.name
-        userNumber = response.number
-    })
+    next(error)
+}
 
-    Contact.findByIdAndDelete(userID, (error) => {
-        if (error) {
-            res.status(400).json({
-                error: error
-            })
-        }
-
-        console.log('deleted contact with id: ' + userID)
-
-        res.status(200).json({
-            id: userID,
-            name: userName,
-            number: userNumber
-        })
-    })
-})
+app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`app running in port ${PORT}`)

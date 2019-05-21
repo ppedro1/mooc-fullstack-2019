@@ -38,7 +38,7 @@ const App = () => {
         if (ifNumExists) {
             let who = persons.filter(a => a.number === newNumber)[0]
             setNotification(`${who.number} on asetettu jo kontaktille ${who.name}`)
-            setTimeout(() => { setNotification(null) }, 1500)
+            setTimeout(() => { setNotification(null) }, 5000)
             setNewNumber('')
         } else {
             const newObject = {
@@ -54,7 +54,7 @@ const App = () => {
                     .then(res => {
                         setPersons(persons.map(person => (person.id === oldPerson.id) ? res : person))
                         setNotification(`Kontaktin ${newName} numero päivitetty.`)
-                        setTimeout(() => { setNotification(null) }, 2500);
+                        setTimeout(() => { setNotification(null) }, 5000);
                     })
                 }
             } else {
@@ -62,7 +62,12 @@ const App = () => {
                 .then(response => {
                     setPersons(persons.concat(response))
                     setNotification(`Uusi kontakti ${newName} lisätty`)
-                    setTimeout(() => { setNotification(null) }, 2500);
+                    setTimeout(() => { setNotification(null) }, 5000);
+                })
+                .catch(error => {
+                    const errorMsg = error.response.data.error
+                    setError(errorMsg)
+                    setTimeout(() => { setError(null) }, 5000)
                 })
             }
             setNewName('')
@@ -78,12 +83,12 @@ const App = () => {
             .then(res => {
                 setPersons(persons.filter(num => num.id !== numID))
                 setNotification(`Kontakti ${person.name} poistettu`)
-                setTimeout(() => { setNotification(null) }, 2500 )
+                setTimeout(() => { setNotification(null) }, 5000 )
             })
             .catch(err => {
                 setError(`Kontakti ${person.name} on jo poistettu!`)
                 setPersons(persons.filter(num => num.id !== numID))
-                setTimeout(() => { setError(null) }, 2500)
+                setTimeout(() => { setError(null) }, 5000)
             })
         }
     }
