@@ -20,11 +20,11 @@ const favouriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-	let authors = blogs.map(a => a.author)
+    let authors = blogs.map(a => a.author)
     let authorsRemap = []
     authors.map(a => {
         if (authorsRemap.find(x => x.author === a) === undefined) {
-             authorsRemap.push({ author: a, blogs: 1 })
+            authorsRemap.push({ author: a, blogs: 1 })
         } else {
             let idx = authorsRemap.findIndex(z => z.author === a)
             authorsRemap[idx].blogs++
