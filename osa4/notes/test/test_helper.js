@@ -1,4 +1,5 @@
 const Note = require('../models/note')
+const User = require('../models/user')
 
 const initialNotes = [
     {
@@ -8,6 +9,13 @@ const initialNotes = [
     {
         content: 'HTTP-protokollan tärkeimmät metodit ovat GET ja POST',
         important: true
+    }
+]
+
+const initialUsers = [
+    {
+        username: 'root',
+        password: 'kakkapylly'
     }
 ]
 
@@ -24,6 +32,11 @@ const notesInDb = async () => {
     return notes.map(note => note.toJSON())
 }
 
+const usersInDb = async () => {
+    const users = await User.find({})
+    return users.map(user => user.toJSON())
+}
+
 module.exports = {
-    initialNotes, nonExistingId, notesInDb
+    initialNotes, initialUsers, nonExistingId, notesInDb, usersInDb
 }

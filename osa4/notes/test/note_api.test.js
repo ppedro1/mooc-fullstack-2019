@@ -3,6 +3,7 @@ const supertest = require('supertest')
 const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
+
 const Note = require('../models/note')
 
 beforeEach(async () => {
@@ -93,4 +94,8 @@ test('a note can be deleted', async () => {
     const contents = notesAtEnd.map(r => r.content)
 
     expect(contents).not.toContain(noteToDelete.content)
+})
+
+afterAll(async () => {
+    mongoose.disconnect()
 })
