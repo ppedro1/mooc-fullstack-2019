@@ -2,21 +2,23 @@ import React from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blog'
 
-const LoginForm = ({ username, setUsername, password, setPassword, user, setUser }) => {
+const LoginForm = ({ username, setUsername, password, setPassword, user, setUser, error, setError }) => {
     const loginHandler = (evt) => {
         evt.preventDefault()
 
         loginService.login({
             username, password
         }).then(user => {
-            console.log(user)
             blogService.setToken(user.token)
             window.localStorage.setItem('BlogAppUserLogin', JSON.stringify(user))
             setUser(user)
             setUsername('')
             setPassword('')
         }).catch(error => {
-            console.log(error)
+            setError('väärä tunnus tai salasana')
+            setTimeout(() => {
+                setError(null)
+            }, 2500)
         })
     }
     return(

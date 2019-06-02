@@ -33,7 +33,10 @@ function App() {
 
     if (user === null) {
         return (
-            <div>
+            <>
+                <div className="header-bar">
+                    { (error === null) ? ' ' : <ErrorMessage message={ error } /> }
+                </div>
                 <LoginForm
                     username={ username }
                     setUsername={ setUsername }
@@ -41,8 +44,10 @@ function App() {
                     setPassword={ setPassword }
                     setUser={ setUser }
                     user={ user }
+                    setError={ setError }
+                    error={ error }
                     />
-            </div>
+            </>
         )
     }
     return(

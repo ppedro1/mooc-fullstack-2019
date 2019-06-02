@@ -20,6 +20,10 @@ body {
     width: 80%;
 }
 
+div.left button {
+    width: 100%;
+}
+
 .header-bar {
     width: 100%;
     display: block;
@@ -64,6 +68,31 @@ body {
 
 .logout-button {
     margin: 1rem 0;
+}
+
+.blog-list-container {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.blog-container h3 {
+    margin: 0;
+}
+
+.blog-list-container .blog-container {
+    width: 100%;
+    border: 1px solid #000;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+.blog-container .hidden {
+    display: none;
+}
+.blog-container .visible {
+    display: block;
 }
 
 input {

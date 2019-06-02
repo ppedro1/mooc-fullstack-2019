@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import noteService from './services/notes.js'
+import noteService from './services/notes'
+import loginService from './services/login'
+
 import Note from './components/Note'
 import Login from './components/Login'
 import Logout from './components/Logout'
+import Togglable from './components/Togglable'
 import Notification from './components/Notification'
+import NoteForm from './components/NoteForm'
+
 import './App.css'
 
 const App = () => {
@@ -32,6 +37,29 @@ const App = () => {
         }
     }, [])
 
+    // refs
+    const noteFormRef = React.createRef()
+
+    const handleLogin = async (event) => {
+        event.preventDefault()
+        console.log(`${username} // ${password}`)
+        try {
+            const user = await loginService.login({
+                username, password
+            })
+            window.localStorage.setItem('loggedNoteAppUser', JSON.stringify(user))
+            noteService.setToken(user.token)
+            setUser(user)
+            setUsername('')
+            setPassword('')
+        } catch (exception) {
+            setError('käyttäjätunnus tai salasana väärin')
+            setTimeout(() => {
+                setError(null)
+            }, 2500)
+        }
+    }
+
     const toggleImportanceOf = id => {
         const note = notes.find(n => n.id === id)
         const changedNote = { ...note, important: !note.important }
@@ -53,43 +81,42 @@ const App = () => {
 
     const notesToShow = showAll ? notes : notes.filter(note => note.important === true)
 
-    const noteHandler = (evt) => {
+    const handleNoteChange = (evt) => {
         setNewNote(evt.target.value)
     }
 
-    const noteForm = () => {
-        const addNote = (evt) => {
-            evt.preventDefault();
-            const noteObject = {
-                content: newNote,
-                important: Math.random() > 0.5,
-            }
-            noteService
-                .create(noteObject)
-                .then(returnNote => {
-                    setNotes(notes.concat(returnNote))
-                    setNewNote('')
-                }
-            )
+    const addNote = (evt) => {
+        evt.preventDefault()
+        noteFormRef.current.toggleVisibility()
+        const noteObject = {
+            content: newNote,
+            important: Math.random() > 0.5,
         }
-
-        return(
-            <form onSubmit={ addNote }>
-                <input value={ newNote } onChange={ noteHandler } />
-                <button type="submit">tallenna muistiinpano</button>
-            </form>
+        noteService
+            .create(noteObject)
+            .then(returnNote => {
+                setNotes(notes.concat(returnNote))
+                setNewNote('')
+            }
         )
     }
 
     return (
         <div>
             <h1>Muistiinpanot</h1>
-            {
-                user === null ?
-                    <Login username={ username } setUsername={ setUsername } password={ password } setPassword={ setPassword } user={ user } setUser={ setUser } setError={ setError } />
-                : <div>Logged in as { user.name }</div>
-            }
             <Notification message={ error } />
+            <Togglable buttonLabel="kirjaudu">
+                <Login setUsername={ setUsername }
+                       username={ username }
+                       setPassword={ setPassword }
+                       password={ password }
+                       setUser={ setUser }
+                       user={ user }
+                       setError={ setError }
+                       error={ error }
+                       handleSubmit={ handleLogin }
+                       />
+            </Togglable>
             <div>
                 <button onClick={ () => setShowAll(!showAll) }>
                     näytä { showAll ? 'vain tärkeät' : 'kaikki' }
@@ -98,7 +125,13 @@ const App = () => {
             <ul>
                 { rows() }
             </ul>
-            { user !== null && noteForm() }
+            <Togglable buttonLabel="new note" ref={ noteFormRef }>
+                <NoteForm
+                    onSubmit={ addNote }
+                    value={ newNote }
+                    handleChange={ handleNoteChange }
+                    />
+            </Togglable>
             { user !== null && <Logout setUser={ setUser } /> }
         </div>
     )
