@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blog'
 
-const NewBlog = ({ setBlogs, blogs, setError, setNotification }) => {
+const NewBlog = ({ setBlogs, blogs, user, setError, setNotification }) => {
     const [ author, setAuthor ] = useState('')
     const [ title, setTitle ] = useState('')
     const [ url, setUrl ] = useState('')
@@ -14,7 +14,8 @@ const NewBlog = ({ setBlogs, blogs, setError, setNotification }) => {
             .insert({
                 author: author,
                 title: title,
-                url: url
+                url: url,
+                user: user.id
             })
             .then(insertedBlog => {
                 setBlogs(blogs.concat(insertedBlog))
@@ -36,8 +37,6 @@ const NewBlog = ({ setBlogs, blogs, setError, setNotification }) => {
         setTitle('')
         setUrl('')
     }
-
-    console.log(formVisibility)
 
     return(
         <div className="new-blog-container">

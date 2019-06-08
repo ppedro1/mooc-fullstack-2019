@@ -52,6 +52,7 @@ const App = () => {
             setUser(user)
             setUsername('')
             setPassword('')
+
         } catch (exception) {
             setError('käyttäjätunnus tai salasana väärin')
             setTimeout(() => {
@@ -125,14 +126,15 @@ const App = () => {
             <ul>
                 { rows() }
             </ul>
-            <Togglable buttonLabel="new note" ref={ noteFormRef }>
-                <NoteForm
-                    onSubmit={ addNote }
-                    value={ newNote }
-                    handleChange={ handleNoteChange }
-                    />
-            </Togglable>
-            { user !== null && <Logout setUser={ setUser } /> }
+
+                <Togglable buttonLabel="new note" ref={ noteFormRef }>
+                    <NoteForm
+                        onSubmit={ addNote }
+                        value={ newNote }
+                        handleChange={ handleNoteChange }
+                        />
+                </Togglable>
+                <Logout setUser={ setUser } />
         </div>
     )
 }

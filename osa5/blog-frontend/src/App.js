@@ -60,10 +60,10 @@ function App() {
                 <h2>Blogilista</h2>
                 <UserInfo username={ user.username } />
                 <LogoutButton setUser={ setUser } />
-                <NewBlog blogs={ blogs } setBlogs={ setBlogs } setError={ setError } setNotification={ setNotification } />
+                <NewBlog blogs={ blogs } user={ user } setBlogs={ setBlogs } setError={ setError } setNotification={ setNotification } />
             </div>
             <div className="right">
-                <BlogList blogs={ blogs } />
+                <BlogList blogs={ blogs } setBlogs={ setBlogs } setError={ setError } setNotification={ setNotification } />
             </div>
         </>
     )

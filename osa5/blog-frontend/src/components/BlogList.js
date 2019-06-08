@@ -1,9 +1,31 @@
 import React from 'react'
 import Blog from './Blog'
+import blogService from '../services/blog'
 
-const BlogList = ({ blogs }) => {
+const BlogList = ({ blogs, setBlogs, setError, setNotification }) => {
 
-    const blogList = () => blogs.map(blog => <Blog key={ blog.id } author={ blog.author } title={ blog.title } url={ blog.url } likes={ blog.likes } />)
+    const deleteBlog = (blog) => {
+        if(window.confirm(`Haluatko poistaa blogin '${ blog.title }'?`)){
+            blogService
+                .deleteBlog(blog.id)
+                .then(response => {
+                    setBlogs(blogs.filter(b => b.id !== blog.id))
+                    setNotification(`Blogi poistettu`)
+                    setTimeout(() => {
+                        setNotification(null)
+                    }, 1500)
+                })
+                .catch(error => {
+                    setError(`Blogin poisto epäonnistui: ${ error }`)
+                    setTimeout(() => {
+                        setError(null)
+                    }, 1500)
+                })
+        }
+    }
+
+    const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+    const blogList = () => sortedBlogs.map(blog => <Blog key={ blog.id } id={ blog.id } author={ blog.author } title={ blog.title } url={ blog.url } user={ blog.user } likes={ blog.likes } setError={ setError } setNotification={ setNotification } deleteBlog={ deleteBlog } />)
 
     return(
         <div className="blog-list-container">
