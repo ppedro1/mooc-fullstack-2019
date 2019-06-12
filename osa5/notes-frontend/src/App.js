@@ -102,10 +102,8 @@ const App = () => {
         )
     }
 
-    return (
-        <div>
-            <h1>Muistiinpanot</h1>
-            <Notification message={ error } />
+    const LoginForm = () => {
+        return(
             <Togglable buttonLabel="kirjaudu">
                 <Login setUsername={ setUsername }
                        username={ username }
@@ -118,6 +116,26 @@ const App = () => {
                        handleSubmit={ handleLogin }
                        />
             </Togglable>
+        )
+    }
+
+    const NewNote = () => {
+        return(
+            <Togglable buttonLabel="new note" ref={ noteFormRef }>
+                <NoteForm
+                    onSubmit={ addNote }
+                    value={ newNote }
+                    handleChange={ handleNoteChange }
+                    />
+            </Togglable>
+        )
+    }
+
+    return (
+        <div>
+            <h1>Muistiinpanot</h1>
+            <Notification message={ error } />
+            { user === null && LoginForm() }
             <div>
                 <button onClick={ () => setShowAll(!showAll) }>
                     näytä { showAll ? 'vain tärkeät' : 'kaikki' }
@@ -126,15 +144,8 @@ const App = () => {
             <ul>
                 { rows() }
             </ul>
-
-                <Togglable buttonLabel="new note" ref={ noteFormRef }>
-                    <NoteForm
-                        onSubmit={ addNote }
-                        value={ newNote }
-                        handleChange={ handleNoteChange }
-                        />
-                </Togglable>
-                <Logout setUser={ setUser } />
+            { user !== null && NewNote() }
+            { user !== null && <Logout setUser={ setUser } /> }
         </div>
     )
 }

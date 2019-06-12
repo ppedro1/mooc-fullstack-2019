@@ -25,7 +25,7 @@ const BlogList = ({ blogs, setBlogs, setError, setNotification }) => {
     }
 
     const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
-    const blogList = () => sortedBlogs.map(blog => <Blog key={ blog.id } id={ blog.id } author={ blog.author } title={ blog.title } url={ blog.url } user={ blog.user } likes={ blog.likes } setError={ setError } setNotification={ setNotification } deleteBlog={ deleteBlog } />)
+    const blogList = () => sortedBlogs.map(blog => <Blog key={ blog.id } blog={ blog } setError={ setError } setNotification={ setNotification } deleteBlog={ deleteBlog } />)
 
     return(
         <div className="blog-list-container">
