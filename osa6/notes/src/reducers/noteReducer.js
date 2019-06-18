@@ -1,18 +1,6 @@
-const initialState = [
-    {
-        content: 'reduxin storen toiminnan määrittelee reduceri',
-        important: true,
-        id: 1
-    },
-    {
-        content: 'storen tilassa voi olla mielivaltaista dataa',
-        important: true,
-        id: 2
-    }
-]
+import noteService from '../services/notes'
 
-
-export const noteReducer = (state = initialState, action) => {
+export const noteReducer = (state = [], action) => {
     switch (action.type) {
         case 'NEW_NOTE':
             state = state.concat(action.data)
@@ -24,22 +12,30 @@ export const noteReducer = (state = initialState, action) => {
                 ...noteToChange, important: !noteToChange.important
             }
             return state.map(note => note.id !== id ? note : changedNote)
+        case 'INIT_NOTES':
+            return action.data
         default:
             return state
     }
 }
 
-
-const generateId = () => Number((Math.random() * 100000).toFixed(0))
+export const initializeNotes = () => {
+    return async dispatch => {
+        const notes = await noteService.getAll()
+        dispatch({
+            type: 'INIT_NOTES',
+            data: notes,
+        })
+    }
+}
 
 export const createNote = (content) => {
-    return {
-        type: 'NEW_NOTE',
-        data: {
-            content,
-            important: false,
-            id: generateId()
-        }
+    return async dispatch => {
+        const newNote = await noteService.createNew(content)
+        dispatch({
+            type: 'NEW_NOTE',
+            data: newNote,
+        })
     }
 }
 

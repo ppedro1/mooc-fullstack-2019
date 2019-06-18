@@ -1,15 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { voteAction } from '../reducers/anecdoteReducer'
-import { setNotificationAction, resetNotificationAction } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const Anecdotes = (props) => {
     const voteAnecdote = (id) => () => {
         props.voteAction(id)
-        props.setNotificationAction('Vote added!')
-        setTimeout(() => {
-            props.resetNotificationAction()
-        }, 5000)
+        props.setNotification(`Anecdoted voted!`, 2)
     }
 
     const rows = props.visibleAnecdotes.map(anecdote => {
@@ -49,8 +46,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     voteAction,
-    setNotificationAction,
-    resetNotificationAction
+    setNotification
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Anecdotes)

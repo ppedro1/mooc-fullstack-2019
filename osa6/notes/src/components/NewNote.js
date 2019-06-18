@@ -4,10 +4,11 @@ import { createNote } from '../reducers/noteReducer'
 
 const NewNote = (props) => {
 
-    const addNote = (evt) => {
+    const addNote = async (evt) => {
         evt.preventDefault()
-        props.createNote(evt.target.note.value)
+        const content = evt.target.note.value
         evt.target.note.value = ''
+        props.createNote(content)
     }
 
     return(

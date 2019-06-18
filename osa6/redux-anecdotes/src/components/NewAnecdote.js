@@ -1,18 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { newAnecdoteAction } from '../reducers/anecdoteReducer'
-import { setNotificationAction, resetNotificationAction } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const NewAnecdote = (props) => {
 
     const newAnecdote = (evt) => {
         evt.preventDefault()
         const content = evt.target.anecdote.value
+        evt.target.anecdote.value = ''
         props.newAnecdoteAction(content)
-        props.setNotificationAction('New anecdote added!')
-        setTimeout(() => {
-            props.resetNotificationAction()
-        }, 5000)
+        props.setNotification(`New anecdote added!`, 10)
     }
 
     return (
@@ -28,8 +26,7 @@ const NewAnecdote = (props) => {
 
 const mapDispatchToProps = {
     newAnecdoteAction,
-    setNotificationAction,
-    resetNotificationAction
+    setNotification
 }
 
 export default connect(null, mapDispatchToProps)(NewAnecdote)
