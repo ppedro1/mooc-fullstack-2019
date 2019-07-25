@@ -1,0 +1,115 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#root div.left {
+    width: 15%;
+}
+#root div.right {
+    width: 80%;
+}
+
+div.left button {
+    width: 100%;
+}
+
+.header-bar {
+    width: 100%;
+    display: block;
+    min-height: 3.5rem;
+    line-height: 3.5rem;
+    font-size: 1.5rem;
+}
+.header-bar div {
+    padding: 0 4rem;
+    border-radius: 2px;
+}
+
+.header-bar .error {
+    color: #FFF;
+    background-color: red;
+}
+
+.header-bar .notification {
+    background-color: green;
+    color: #FFF;
+}
+
+.login-container form div {
+    display: inline-block;
+    margin-right: 1rem;
+}
+.login-container form div button {
+}
+
+.login-container h2 {
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+.insert-blog-form {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background-color: #f4d6d0;
+}
+.insert-blog-form input {
+    width: 95%;
+}
+
+.logout-button {
+    margin: 1rem 0;
+}
+
+.blog-list-container {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.blog-container h3 {
+    margin: 0;
+}
+
+.blog-list-container .blog-container {
+    width: 100%;
+    border: 1px solid #000;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+.blog-container .hidden {
+    display: none;
+}
+.blog-container .visible {
+    display: block;
+}
+
+input {
+    background-color: #944837;
+    border: 1px solid #55261c;
+    border-radius: 4px;
+    padding: 0.25rem;
+    color: #FFF;
+}
+button {
+    background-color: #944837;
+    border: 1px solid #55261c;
+    border-radius: 4px;
+    padding: 0.25rem 1.5rem;
+    color: #FFF;
+}
+
+button[type=submit]:hover {
+    background-color: #7f4c41;
+}
